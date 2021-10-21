@@ -14,6 +14,30 @@ const constantRouterComponents = {
   '404': () => import(/* webpackChunkName: "error" */ '@/views/exception/404'),
   '500': () => import(/* webpackChunkName: "error" */ '@/views/exception/500'),
 
+  // 系统
+  Advert: () => import('@/views/system/Advert'),
+  Announcement: () => import('@/views/system/Announcement'),
+  Promote: () => import('@/views/system/Promote'),
+  ExchGroup: () => import('@/views/system/ExchGroup'),
+
+  // 分类管理
+  // 首页分类
+  HomeClist: () => import('@/views/category/HomeClist'),
+  // 会员页分类
+  MemberClist: () => import('@/views/category/MemberClist'),
+
+  // 分区管理
+  Slist: () => import('@/views/section/Slist'),
+
+  // 视频管理
+  Vlist: () => import('@/views/video/Vlist'),
+
+  // 用户管理
+  Mlist: () => import('@/views/member/Mlist'),
+
+  // 表单管理
+  Flist: () => import('@/views/videoform/Flist'),
+
   // 你需要动态引入的页面组件
   Workplace: () => import('@/views/dashboard/Workplace'),
   Analysis: () => import('@/views/dashboard/Analysis'),

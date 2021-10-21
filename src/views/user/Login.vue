@@ -41,6 +41,7 @@
             </a-input-password>
           </a-form-item>
         </a-tab-pane>
+        <!--
         <a-tab-pane key="tab2" :tab="$t('user.login.tab-login-mobile')">
           <a-form-item>
             <a-input size="large" type="text" :placeholder="$t('user.login.mobile.placeholder')" v-decorator="['mobile', {rules: [{ required: true, pattern: /^1[34578]\d{9}$/, message: $t('user.login.mobile.placeholder') }], validateTrigger: 'change'}]">
@@ -67,6 +68,7 @@
             </a-col>
           </a-row>
         </a-tab-pane>
+        -->
       </a-tabs>
 
       <a-form-item>
@@ -102,6 +104,7 @@
         </a>
         <router-link class="register" :to="{ name: 'register' }">{{ $t('user.login.signup') }}</router-link>
       </div>
+
     </a-form>
 
     <two-step-captcha
@@ -114,7 +117,7 @@
 </template>
 
 <script>
-import md5 from 'md5'
+// import md5 from 'md5'
 import TwoStepCaptcha from '@/components/tools/TwoStepCaptcha'
 import { mapActions } from 'vuex'
 import { timeFix } from '@/utils/util'
@@ -189,7 +192,8 @@ export default {
           const loginParams = { ...values }
           delete loginParams.username
           loginParams[!state.loginType ? 'email' : 'username'] = values.username
-          loginParams.password = md5(values.password)
+          // loginParams.password = md5(values.password)
+          loginParams.password = values.password
           Login(loginParams)
             .then((res) => this.loginSuccess(res))
             .catch(err => this.requestFailed(err))
@@ -259,7 +263,7 @@ export default {
         })
       })
       */
-      this.$router.push({ path: '/' })
+      this.$router.push({ path: '/system/advert' })
       // 延迟 1 秒显示欢迎信息
       setTimeout(() => {
         this.$notification.success({

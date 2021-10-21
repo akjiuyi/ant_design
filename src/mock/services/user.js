@@ -21,6 +21,7 @@ const info = options => {
     role: {}
   }
   // role
+  /*
   const roleObj = {
     id: 'admin',
     name: '管理员',
@@ -460,6 +461,53 @@ const info = options => {
     actionList: null,
     dataAccess: null
   })
+   */
+  const roleObj = {
+    id: 'admin',
+    name: '管理员',
+    describe: '拥有所有权限',
+    status: 1,
+    creatorId: 'system',
+    createTime: 1497160610259,
+    deleted: 0,
+    permissions: [
+      {
+        roleId: 'admin',
+        permissionId: 'dashboard',
+        permissionName: '仪表盘',
+        actions:
+          '[{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]',
+        actionEntitySet: [
+          {
+            action: 'add',
+            describe: '新增',
+            defaultCheck: false
+          },
+          {
+            action: 'query',
+            describe: '查询',
+            defaultCheck: false
+          },
+          {
+            action: 'get',
+            describe: '详情',
+            defaultCheck: false
+          },
+          {
+            action: 'update',
+            describe: '修改',
+            defaultCheck: false
+          },
+          {
+            action: 'delete',
+            describe: '删除',
+            defaultCheck: false
+          }
+        ],
+        actionList: null,
+        dataAccess: null
+      }]
+  }
 
   userInfo.role = roleObj
   return builder(userInfo)
@@ -467,53 +515,220 @@ const info = options => {
 
 const userNav = options => {
   const nav = [
-    // dashboard
+    // 系统
     {
-      name: 'dashboard',
+      name: 'system',
       parentId: 0,
       id: 1,
       meta: {
         icon: 'dashboard',
-        title: '仪表盘',
+        title: '系统设置',
         show: true
       },
       component: 'RouteView',
-      redirect: '/dashboard/workplace'
+      redirect: '/system/advert'
     },
     {
-      name: 'workplace',
-      parentId: 1,
-      id: 7,
-      meta: {
-        title: '工作台',
-        show: true
-      },
-      component: 'Workplace'
-    },
-    {
-      name: 'monitor',
-      path: 'https://www.baidu.com/',
-      parentId: 1,
-      id: 3,
-      meta: {
-        title: '监控页（外部）',
-        target: '_blank',
-        show: true
-      }
-    },
-    {
-      name: 'Analysis',
+      name: 'advert',
       parentId: 1,
       id: 2,
       meta: {
-        title: '分析页',
+        title: '广告设置',
         show: true
       },
-      component: 'Analysis',
-      path: '/dashboard/analysis'
+      path: '/system/advert/:pageNo([1-9]\\d*)?',
+      component: 'Advert'
     },
-
+    {
+      name: 'announcement',
+      parentId: 1,
+      id: 3,
+      meta: {
+        title: '公告管理',
+        show: true
+      },
+      path: '/system/announcement/:pageNo([1-9]\\d*)?',
+      component: 'Announcement'
+    },
+    {
+      name: 'Promote',
+      parentId: 1,
+      id: 4,
+      meta: {
+        title: '推广管理',
+        show: true
+      },
+      path: '/system/promote/:pageNo([1-9]\\d*)?',
+      component: 'Promote'
+    },
+    {
+      name: 'exch-group',
+      parentId: 1,
+      id: 5,
+      meta: {
+        title: '交流群',
+        show: true
+      },
+      path: '/system/exch-group',
+      component: 'ExchGroup'
+    },
+    /*
+    {
+      name: 'common-problem',
+      parentId: 1,
+      id: 6,
+      meta: {
+        title: '常见问题',
+        show: true
+      },
+      component: 'CommonProblem',
+      path: '/system/common-problem'
+    },
+    {
+      name: 'about-us',
+      parentId: 1,
+      id: 6,
+      meta: {
+        title: '关于我们',
+        show: true
+      },
+      component: 'AboutUs',
+      path: '/system/about-us'
+    },
+    */
+    // 分类管理
+    {
+      name: 'category',
+      parentId: 0,
+      id: 7,
+      meta: {
+        icon: 'dashboard',
+        title: '分类管理',
+        show: true
+      },
+      component: 'RouteView',
+      redirect: '/category/list'
+    },
+    {
+      name: 'home-clist',
+      parentId: 7,
+      id: 8,
+      meta: {
+        title: '首页分类列表',
+        show: true
+      },
+      path: '/category/home-clist',
+      component: 'HomeClist'
+    },
+    {
+      name: 'member-clist',
+      parentId: 7,
+      id: 8,
+      meta: {
+        title: '会员页分类列表',
+        show: true
+      },
+      path: '/category/member-clist',
+      component: 'MemberClist'
+    },
+    // 分区管理
+    {
+      name: 'section',
+      parentId: 0,
+      id: 20,
+      meta: {
+        icon: 'dashboard',
+        title: '分区管理',
+        show: true
+      },
+      component: 'RouteView',
+      redirect: '/section/slist'
+    },
+    {
+      name: 'section-list',
+      parentId: 20,
+      id: 21,
+      meta: {
+        title: '分区列表',
+        show: true
+      },
+      path: '/section/slist',
+      component: 'Slist'
+    },
+    // 视频管理
+    {
+      name: 'video',
+      parentId: 0,
+      id: 22,
+      meta: {
+        icon: 'dashboard',
+        title: '视频管理',
+        show: true
+      },
+      component: 'RouteView',
+      redirect: '/video/vlist'
+    },
+    {
+      name: 'video-list',
+      parentId: 22,
+      id: 23,
+      meta: {
+        title: '视频列表',
+        show: true
+      },
+      path: '/video/vlist',
+      component: 'Vlist'
+    },
+    // 用户管理
+    {
+      name: 'member',
+      parentId: 0,
+      id: 30,
+      meta: {
+        icon: 'dashboard',
+        title: '用户管理',
+        show: true
+      },
+      component: 'RouteView',
+      redirect: '/member/mlist'
+    },
+    {
+      name: 'member-list',
+      parentId: 30,
+      id: 31,
+      meta: {
+        title: '用户列表',
+        show: true
+      },
+      path: '/member/mlist',
+      component: 'Mlist'
+    },
+    // 表单管理
+    {
+      name: 'video-form',
+      parentId: 0,
+      id: 40,
+      meta: {
+        icon: 'dashboard',
+        title: '表单管理',
+        show: true
+      },
+      component: 'RouteView',
+      redirect: '/videoform/flist'
+    },
+    {
+      name: 'video-form-list',
+      parentId: 40,
+      id: 41,
+      meta: {
+        title: '视频表单',
+        show: true
+      },
+      path: '/videoform/flist',
+      component: 'Flist'
+    }
     // form
+    /*
     {
       name: 'form',
       parentId: 0,
@@ -552,7 +767,6 @@ const userNav = options => {
       },
       component: 'AdvanceForm'
     },
-
     // list
     {
       name: 'list',
@@ -638,7 +852,6 @@ const userNav = options => {
       },
       component: 'SearchApplications'
     },
-
     // profile
     {
       name: 'profile',
@@ -845,6 +1058,7 @@ const userNav = options => {
       },
       component: 'NotificationSettings'
     }
+     */
   ]
   const json = builder(nav)
   console.log('json', json)

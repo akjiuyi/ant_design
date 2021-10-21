@@ -245,8 +245,155 @@ const radar = () => {
   ])
 }
 
+// 广告管理
+const advertList = (options) => {
+  const parameters = getQueryParameters(options)
+
+  const result = []
+  const pageNo = parseInt(parameters.pageNo)
+  const pageSize = parseInt(parameters.pageSize)
+  const totalPage = Math.ceil(totalCount / pageSize)
+  const key = (pageNo - 1) * pageSize
+  const next = (pageNo >= totalPage ? (totalCount % pageSize) : pageSize) + 1
+
+  for (let i = 1; i < next; i++) {
+    const tmpKey = key + i
+    result.push({
+      key: tmpKey,
+      id: tmpKey,
+      type: '视频播放前广告',
+      link_type: '外部链接',
+      link_url: 'https://www.cxyzjd.com/article/Kasey_L/104939839',
+      // status: Mock.mock('@integer(0, 3)'),
+      // updatedAt: Mock.mock('@datetime'),
+      editable: false
+    })
+  }
+
+  return builder({
+    pageSize: pageSize,
+    pageNo: pageNo,
+    totalCount: totalCount,
+    totalPage: totalPage,
+    data: result
+  })
+}
+
+// 公告管理
+const announcementList = (options) => {
+  const parameters = getQueryParameters(options)
+
+  const result = []
+  const pageNo = parseInt(parameters.pageNo)
+  const pageSize = parseInt(parameters.pageSize)
+  const totalPage = Math.ceil(totalCount / pageSize)
+  // const key = (pageNo - 1) * pageSize
+  // const next = (pageNo >= totalPage ? (totalCount % pageSize) : pageSize) + 1
+
+  // for (let i = 1; i < next; i++) {
+  //  const tmpKey = key + i
+    result.push({
+      key: 1,
+      id: 1,
+      title: '最新公告',
+      start_date: '2021-9-21',
+      end_date: '2022-9-21',
+      duration: '2251',
+      introduction: '迄今美国疫情最糟糕的时候出现在今年1月初，日增确诊病例曾突破30万例，',
+      content: '2021年9月13日 — CDC启动了一项长达一年的调查，复核2020年初一批疑似与新冠病毒有关的死亡病例，其中有四例通过了审查。但一些科学家表示，这四个病例确实由新冠造成 ..',
+      // status: Mock.mock('@integer(0, 3)'),
+      // updatedAt: Mock.mock('@datetime'),
+      editable: false
+    })
+  // }
+
+  return builder({
+    pageSize: pageSize,
+    pageNo: pageNo,
+    totalCount: totalCount,
+    totalPage: totalPage,
+    data: result
+  })
+}
+
+// 推广管理
+const promoteList = (options) => {
+  const parameters = getQueryParameters(options)
+
+  const result = []
+  const pageNo = parseInt(parameters.pageNo)
+  const pageSize = parseInt(parameters.pageSize)
+  // const totalPage = Math.ceil(totalCount / pageSize)
+  // const key = (pageNo - 1) * pageSize
+  // const next = (pageNo >= totalPage ? (totalCount % pageSize) : pageSize) + 1
+
+  // for (let i = 1; i < next; i++) {
+  //  const tmpKey = key + i
+  result.push({
+    key: 1,
+    id: 1,
+    link: 'https://www.antdv.com/components/modal-cn/',
+    content: '迄今美国疫情最糟糕的时候出现在今年1月初，日增确诊病例曾突破30万例，',
+    is_sale: 1,
+    editable: false
+  })
+  // }
+
+  return builder({
+    pageSize: pageSize,
+    pageNo: pageNo,
+    totalCount: 1,
+    totalPage: 1,
+    data: result
+  })
+}
+
+// 分类列表
+/*
+const categoryList = (options) => {
+  const parameters = getQueryParameters(options)
+
+  const result = []
+  const pageNo = parseInt(parameters.pageNo)
+  const pageSize = parseInt(parameters.pageSize)
+  // const totalPage = Math.ceil(totalCount / pageSize)
+  // const key = (pageNo - 1) * pageSize
+  // const next = (pageNo >= totalPage ? (totalCount % pageSize) : pageSize) + 1
+
+  // for (let i = 1; i < next; i++) {
+  //  const tmpKey = key + i
+  result.push({
+    key: 1,
+    id: 1,
+    link: 'https://www.antdv.com/components/modal-cn/',
+    content: '迄今美国疫情最糟糕的时候出现在今年1月初，日增确诊病例曾突破30万例，',
+    is_sale: 1,
+    editable: false
+  })
+  // }
+
+  return builder({
+    pageSize: pageSize,
+    pageNo: pageNo,
+    totalCount: 1,
+    totalPage: 1,
+    data: result
+  })
+}
+ */
+
 Mock.mock(/\/service/, 'get', serverList)
 Mock.mock(/\/list\/search\/projects/, 'get', projects)
 Mock.mock(/\/workplace\/activity/, 'get', activity)
 Mock.mock(/\/workplace\/teams/, 'get', teams)
 Mock.mock(/\/workplace\/radar/, 'get', radar)
+
+// 新增模拟数据
+// 广告管理
+Mock.mock(/\/advertList/, 'get', advertList)
+// 公告管理
+Mock.mock(/\/announcementList/, 'get', announcementList)
+// 推广管理
+Mock.mock(/\/promoteList/, 'get', promoteList)
+// 分类列表
+// Mock.mock(/\/category/, 'get', categoryList)
