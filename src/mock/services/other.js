@@ -79,12 +79,12 @@ const orgTree = () => {
     }]
   }])
 }
-
+/*
 const role = () => {
   return builder({
     'data': [{
       'id': 'admin',
-      'name': '管理员',
+      'name': '管理员2',
       'describe': '拥有所有权限',
       'status': 1,
       'creatorId': 'system',
@@ -666,6 +666,7 @@ const role = () => {
     'totalCount': 5
   })
 }
+ */
 
 const permissionNoPager = () => {
   return builder([{
@@ -967,7 +968,45 @@ const permissions = () => {
   })
 }
 
+const roleList = () => {
+  return builder({
+    'data': [{
+        'id': 1,
+        'name': '管理员1',
+        'describe': '拥有所有权限',
+        'status': 1,
+        'creatorId': 'system',
+        'createTime': 1497160610259,
+        'deleted': 0
+      },
+      {
+        'id': 2,
+        'name': 'SVIP',
+        'describe': '超级会员',
+        'status': 1,
+        'creatorId': 'system',
+        'createTime': 1532417744846,
+        'deleted': 0
+      },
+      {
+        'id': 3,
+        'name': '普通会员',
+        'describe': '普通用户，只能查询',
+        'status': 1,
+        'creatorId': 'system',
+        'createTime': 1497160610259,
+        'deleted': 0
+      }
+    ],
+    'pageSize': 10,
+    'pageNo': 0,
+    'totalPage': 1,
+    'totalCount': 3
+  })
+}
+
 Mock.mock(/\/org\/tree/, 'get', orgTree)
-Mock.mock(/\/role/, 'get', role)
+// Mock.mock(/\/role/, 'get', role)
 Mock.mock(/\/permission\/no-pager/, 'get', permissionNoPager)
 Mock.mock(/\/permission/, 'get', permissions)
+Mock.mock(/\/system\/rolelist/, 'get', roleList)

@@ -472,40 +472,7 @@ const info = options => {
     deleted: 0,
     permissions: [
       {
-        roleId: 'admin',
-        permissionId: 'dashboard',
-        permissionName: '仪表盘',
-        actions:
-          '[{"action":"add","defaultCheck":false,"describe":"新增"},{"action":"query","defaultCheck":false,"describe":"查询"},{"action":"get","defaultCheck":false,"describe":"详情"},{"action":"update","defaultCheck":false,"describe":"修改"},{"action":"delete","defaultCheck":false,"describe":"删除"}]',
-        actionEntitySet: [
-          {
-            action: 'add',
-            describe: '新增',
-            defaultCheck: false
-          },
-          {
-            action: 'query',
-            describe: '查询',
-            defaultCheck: false
-          },
-          {
-            action: 'get',
-            describe: '详情',
-            defaultCheck: false
-          },
-          {
-            action: 'update',
-            describe: '修改',
-            defaultCheck: false
-          },
-          {
-            action: 'delete',
-            describe: '删除',
-            defaultCheck: false
-          }
-        ],
-        actionList: null,
-        dataAccess: null
+        roleId: 'admin'
       }]
   }
 
@@ -572,7 +539,6 @@ const userNav = options => {
       path: '/system/exch-group',
       component: 'ExchGroup'
     },
-    /*
     {
       name: 'common-problem',
       parentId: 1,
@@ -587,7 +553,7 @@ const userNav = options => {
     {
       name: 'about-us',
       parentId: 1,
-      id: 6,
+      id: 7,
       meta: {
         title: '关于我们',
         show: true
@@ -595,12 +561,35 @@ const userNav = options => {
       component: 'AboutUs',
       path: '/system/about-us'
     },
-    */
+    /*
+    {
+      name: 'role',
+      parentId: 1,
+      id: 8,
+      meta: {
+        title: '角色管理',
+        show: true
+      },
+      component: 'Role',
+      path: '/system/role/:pageNo([1-9]\\d*)?'
+    },
+    {
+      name: 'user',
+      parentId: 1,
+      id: 9,
+      meta: {
+        title: '后台用户',
+        show: true
+      },
+      component: 'User',
+      path: '/system/user/:pageNo([1-9]\\d*)?'
+    },
+     */
     // 分类管理
     {
       name: 'category',
       parentId: 0,
-      id: 7,
+      id: 20,
       meta: {
         icon: 'dashboard',
         title: '分类管理',
@@ -611,8 +600,8 @@ const userNav = options => {
     },
     {
       name: 'home-clist',
-      parentId: 7,
-      id: 8,
+      parentId: 20,
+      id: 21,
       meta: {
         title: '首页分类列表',
         show: true
@@ -622,8 +611,8 @@ const userNav = options => {
     },
     {
       name: 'member-clist',
-      parentId: 7,
-      id: 8,
+      parentId: 20,
+      id: 22,
       meta: {
         title: '会员页分类列表',
         show: true
@@ -635,9 +624,9 @@ const userNav = options => {
     {
       name: 'section',
       parentId: 0,
-      id: 20,
+      id: 40,
       meta: {
-        icon: 'dashboard',
+        icon: 'plus-square',
         title: '分区管理',
         show: true
       },
@@ -646,8 +635,8 @@ const userNav = options => {
     },
     {
       name: 'section-list',
-      parentId: 20,
-      id: 21,
+      parentId: 40,
+      id: 41,
       meta: {
         title: '分区列表',
         show: true
@@ -659,7 +648,7 @@ const userNav = options => {
     {
       name: 'video',
       parentId: 0,
-      id: 22,
+      id: 60,
       meta: {
         icon: 'dashboard',
         title: '视频管理',
@@ -670,8 +659,8 @@ const userNav = options => {
     },
     {
       name: 'video-list',
-      parentId: 22,
-      id: 23,
+      parentId: 60,
+      id: 61,
       meta: {
         title: '视频列表',
         show: true
@@ -683,7 +672,7 @@ const userNav = options => {
     {
       name: 'member',
       parentId: 0,
-      id: 30,
+      id: 80,
       meta: {
         icon: 'dashboard',
         title: '用户管理',
@@ -694,8 +683,8 @@ const userNav = options => {
     },
     {
       name: 'member-list',
-      parentId: 30,
-      id: 31,
+      parentId: 80,
+      id: 81,
       meta: {
         title: '用户列表',
         show: true
@@ -707,7 +696,7 @@ const userNav = options => {
     {
       name: 'video-form',
       parentId: 0,
-      id: 40,
+      id: 100,
       meta: {
         icon: 'dashboard',
         title: '表单管理',
@@ -718,8 +707,8 @@ const userNav = options => {
     },
     {
       name: 'video-form-list',
-      parentId: 40,
-      id: 41,
+      parentId: 100,
+      id: 101,
       meta: {
         title: '视频表单',
         show: true
@@ -727,8 +716,8 @@ const userNav = options => {
       path: '/videoform/flist',
       component: 'Flist'
     }
+  /*
     // form
-    /*
     {
       name: 'form',
       parentId: 0,
@@ -1058,7 +1047,8 @@ const userNav = options => {
       },
       component: 'NotificationSettings'
     }
-     */
+   */
+
   ]
   const json = builder(nav)
   console.log('json', json)

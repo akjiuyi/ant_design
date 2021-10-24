@@ -381,7 +381,7 @@ export default {
     }
   },
   created () {
-    getRoleList({ t: new Date() })
+     getRoleList({ t: new Date() })
   },
   computed: {
     rowSelection () {

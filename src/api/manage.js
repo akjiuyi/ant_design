@@ -33,7 +33,16 @@ const api = {
   addVideoForm: '/list',
   addVideoToForm: '/video/list',
   getFormVideoList: '/list/videos',
-  deleteFormVideo: '/video/list'
+  deleteFormVideo: '/video/list',
+  getRoleLists: '/user/roles',
+  addRole: '/user/addrole',
+  editRole: '/user/editrole',
+  deleteRole: '/user/deleterole',
+  getUserLists: '/user/lists',
+  addUser: '/user/add',
+  deleteUser: '/user/delete',
+  getRoles: '/user/getroles',
+  editUser: '/user/edituser'
 }
 
 export default api
@@ -119,6 +128,15 @@ export function getAnnouncementList (parameter) {
 export function getPromoteList (parameter) {
   return request({
     url: api.promote,
+    method: 'get',
+    params: parameter
+  })
+}
+
+// 获取角色列表
+export function getRoleLists (parameter) {
+  return request({
+    url: api.getRoleLists,
     method: 'get',
     params: parameter
   })
@@ -338,6 +356,78 @@ export function deleteFormVideo (parameter) {
   return request({
     url: api.deleteFormVideo,
     method: 'DELETE',
+    data: parameter
+  })
+}
+
+// 添加角色
+export function addRole (parameter) {
+  return request({
+    url: api.addRole,
+    method: 'post',
+    data: parameter
+  })
+}
+
+// 编辑角色
+export function editRole (parameter) {
+  return request({
+    url: api.editRole,
+    method: 'post',
+    data: parameter
+  })
+}
+
+// 删除角色
+export function deleteRole (parameter) {
+  return request({
+    url: api.deleteRole,
+    method: 'post',
+    data: parameter
+  })
+}
+
+// 获取管理后台用户列表
+export function getUserLists (parameter) {
+  return request({
+    url: api.getUserLists,
+    method: 'get',
+    params: parameter
+  })
+}
+
+// 添加管理后台用户
+export function addUser (parameter) {
+  return request({
+    url: api.addUser,
+    method: 'post',
+    data: parameter
+  })
+}
+
+// 删除管理后台用户
+export function deleteUser (parameter) {
+  return request({
+    url: api.deleteUser,
+    method: 'post',
+    data: parameter
+  })
+}
+
+// 获取管理后台角色
+export function getRoles (parameter) {
+  return request({
+    url: api.getRoles,
+    method: 'get',
+    data: parameter
+  })
+}
+
+// 添加管理后台用户
+export function editUser (parameter) {
+  return request({
+    url: api.editUser,
+    method: 'post',
     data: parameter
   })
 }

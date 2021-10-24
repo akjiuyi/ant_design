@@ -40,6 +40,7 @@ const user = {
         login(userInfo).then(response => {
           if (response.code === 0) {
             const result = response.data
+            storage.set('user_id', result._id, 7 * 24 * 60 * 60 * 1000)
             storage.set(ACCESS_TOKEN, result.token, 7 * 24 * 60 * 60 * 1000)
             commit('SET_TOKEN', result.token)
             resolve()
@@ -56,7 +57,11 @@ const user = {
     GetInfo ({ commit }) {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
-          const result = response.result
+           const result = response.result
+
+          // 打包适配代码
+          // const result = response.data
+          //
 
           if (result.role && result.role.permissions.length > 0) {
             const role = result.role

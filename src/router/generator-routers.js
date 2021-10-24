@@ -2,6 +2,7 @@
 import * as loginService from '@/api/login'
 // eslint-disable-next-line
 import { BasicLayout, BlankLayout, PageView, RouteView } from '@/layouts'
+import storage from 'store'
 
 // 前端路由表
 const constantRouterComponents = {
@@ -19,6 +20,8 @@ const constantRouterComponents = {
   Announcement: () => import('@/views/system/Announcement'),
   Promote: () => import('@/views/system/Promote'),
   ExchGroup: () => import('@/views/system/ExchGroup'),
+  Role: () => import('@/views/system/Role'),
+  User: () => import('@/views/system/User'),
 
   // 分类管理
   // 首页分类
@@ -106,10 +109,16 @@ const rootRouter = {
  */
 export const generatorDynamicRouter = token => {
   return new Promise((resolve, reject) => {
+    const param = { user_id: storage.get('user_id') }
+
     loginService
-      .getCurrentUserNav(token)
+      .getCurrentUserNav(param)
       .then(res => {
         console.log('generatorDynamicRouter response:', res)
+        // 打包适配代码
+        // res.result = res.data
+        // res.data = null
+        //
         const { result } = res
         const menuNav = []
         const childrenNav = []
