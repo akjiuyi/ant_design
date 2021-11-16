@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 const userApi = {
   Login: '/adminuser/signin',
-  Logout: '/auth/logout',
+  Logout: '/adminuser/logout',
   ForgePassword: '/auth/forge-password',
   Register: '/auth/register',
   twoStepCode: '/auth/2step-code',
@@ -50,10 +50,11 @@ export function getInfo () {
   })
 }
 
-export function getCurrentUserNav () {
+export function getCurrentUserNav (param) {
   return request({
     url: userApi.UserMenu,
-    method: 'get'
+    method: 'get',
+    params: param
   })
 }
 

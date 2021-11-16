@@ -19,19 +19,19 @@
         </a-form-item>
 
         <a-form-item  label="分类">
-          <a-checkbox-group  v-decorator="['categories', {rules: [{required: true,  message: '请选择分类'}]}]" >
+          <a-checkbox-group  v-decorator="['categories', {rules: [{required: false,  message: '请选择分类'}]}]" >
             <a-checkbox :key="index" v-for="(cate, index) in categories" :value="cate.name">{{ cate.name }}</a-checkbox>
           </a-checkbox-group>
         </a-form-item>
 
         <a-form-item  label="标签">
-          <a-checkbox-group  v-decorator="['tags', {rules: [{required: true,  message: '请选择标签'}]}]">
+          <a-checkbox-group  v-decorator="['tags', {rules: [{required: false,  message: '请选择标签'}]}]">
             <a-checkbox :key="index" v-for="(tag, index) in tags" :value="tag.name">{{ tag.name }}</a-checkbox>
           </a-checkbox-group>
         </a-form-item>
 
         <a-form-item  label="演员">
-          <a-checkbox-group  v-decorator="['models', {rules: [{required: true,  message: '请选择演员'}]}]">
+          <a-checkbox-group  v-decorator="['models', {rules: [{required: false,  message: '请选择演员'}]}]">
             <a-checkbox :key="index" v-for="(model, index) in models" :value="model">{{ model }}</a-checkbox>
           </a-checkbox-group>
         </a-form-item>
@@ -209,15 +209,19 @@ export default {
     },
     appendActor () {
       try {
+        if (!this.author) {
+          throw new Error('请输入演员名称')
+        }
+
         this.models.forEach(element => {
           if (element === this.author) {
-            throw new Error('same author')
+            throw new Error('不能输入相同名称的演员')
           }
         })
         // this.models.push(this.author)
         this.model.models.push(this.author)
       } catch (e) {
-        this.$message.error('不能输入相同名称的演员')
+        this.$message.error(e.toString())
       }
     }
   }

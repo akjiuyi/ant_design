@@ -1,6 +1,7 @@
 <template>
   <page-header-wrapper>
     <a-card :bordered="false">
+      <!--
       <div class="table-page-search-wrapper">
         <a-form layout="inline">
           <a-row :gutter="48">
@@ -61,28 +62,29 @@
           </a-row>
         </a-form>
       </div>
+      -->
 
       <div class="table-operator">
         <a-button type="primary"  @click="addForm">新增</a-button>
         <!--<a-button type="primary"  @click="handleValid">有效</a-button>
-        <a-button type="primary"  @click="handleInvalid">无效</a-button>-->
+        <a-button type="primary"  @click="handleInvalid">无效</a-button>
 
         <a-dropdown v-action:edit >
           <a-menu slot="overlay">
             <a-menu-item key="1"><a-icon type="delete" />删除</a-menu-item>
-            <!-- lock | unlock -->
             <a-menu-item key="2"><a-icon type="lock" />锁定</a-menu-item>
           </a-menu>
           <a-button style="margin-left: 8px">
             批量操作 <a-icon type="down" />
           </a-button>
         </a-dropdown>
+        -->
       </div>
 
       <s-table
         ref="table"
         size="default"
-        rowKey="key"
+        rowKey="_id"
         :columns="columns"
         :data="loadData"
         :alert="true"
@@ -106,8 +108,8 @@
           <template>
             <a @click="editForm(record)">编辑表单</a>
             <a-divider type="vertical" />
-            <a @click="addFormPic(record)">表单图片</a>
-            <a-divider type="vertical" />
+            <!--<a @click="addFormPic(record)">表单图片</a>
+            <a-divider type="vertical" />-->
             <a @click="addVideo(record)">添加视频</a>
             <a-divider type="vertical" />
             <a @click="videoList(record)">视频列表</a>
@@ -160,8 +162,7 @@
         <s-table
           ref="table1"
           size="default"
-
-          rowKey="key"
+          rowKey="_id"
           :columns="videoColumns"
           :data="loadVideoData"
           :alert="true"
@@ -196,7 +197,7 @@
 <script>
 import moment from 'moment'
 import { STable, Ellipsis } from '@/components'
-import { getRoleList, getVideoFormList, setPayType, deleteFormVideo, addVideoForm, addVideoToForm, getFormVideoList } from '@/api/manage'
+import { getVideoFormList, setPayType, deleteFormVideo, addVideoForm, editVideoForm, addVideoToForm, getFormVideoList } from '@/api/manage'
 
 import AddForm from './modules/AddForm'
 import AddFormPic from './modules/AddFormPic'
@@ -327,6 +328,7 @@ export default {
 
     return {
       // create model
+      top: 10,
       list_id: '',
       visible: false,
       add_form_visible: false,
@@ -399,7 +401,7 @@ export default {
     }
   },
   created () {
-    getRoleList({ t: new Date() })
+    // getRoleList({ t: new Date() })
   },
   computed: {
     rowSelection () {
@@ -425,7 +427,10 @@ export default {
     // 编辑表单
     editForm (record) {
       // 获取视频信息
-      this.video_id = record._id
+      this.list_id = record._id
+      this.edit_form_visible = true
+      this.edit_form_mdl = { ...record }
+      console.log('vvv444', this.edit_form_mdl)
       // const param = { _id: record._id }
       /*
       getVideoFormInfo(param).then(res => {
@@ -482,29 +487,28 @@ export default {
     },
     // 添加表单
     editFormOk () {
-      /*
-      const form = this.$refs.AddForm.form
+      const form = this.$refs.EditForm.form
       this.confirmLoading = true
       form.validateFields((errors, values) => {
         if (!errors) {
+          values.list = this.list_id
           console.log('====')
           console.log('values', values)
 
-          addVideoForm(values).then(res => {
-            this.add_form_visible = false
+          editVideoForm(values).then(res => {
+            this.edit_form_visible = false
             this.confirmLoading = false
             // 重置表单数据
             form.resetFields()
             // 刷新表格
             this.$refs.table.refresh()
 
-            this.$message.info('添加视频表单成功')
+            this.$message.info('编辑视频表单成功')
           })
         } else {
           this.confirmLoading = false
         }
       })
-       */
       // this.add_category_visible = false
     },
    addFormPicOk () {
@@ -516,7 +520,7 @@ export default {
       this.add_form_pic_mdl = null
       form.resetFields()
       // 刷新表格
-      // this.$refs.table.refresh()
+      this.$refs.table.refresh()
       this.$message.info('设置表单图片成功')
     },
     addVideoOk () {

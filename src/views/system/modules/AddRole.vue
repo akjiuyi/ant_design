@@ -52,6 +52,7 @@ const treeData = [
     title: '系统设置',
     key: '1',
     children: [
+      /*
       {
         title: '广告设置',
         key: '2'
@@ -68,6 +69,7 @@ const treeData = [
         title: '交流群',
         key: '5'
       },
+       */
       {
         title: '角色管理',
         key: '8'
@@ -112,6 +114,14 @@ const treeData = [
     key: '100',
     children: [
       { title: '视频表单', key: '101' }
+    ]
+  },
+  {
+    title: '数据统计',
+    key: '120',
+    children: [
+      { title: '数据总表', key: '121' },
+      { title: '留存分析', key: '122' }
     ]
   }
 ]

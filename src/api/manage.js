@@ -27,10 +27,12 @@ const api = {
   getVideoInfo: '/video',
   editVideo: '/video',
   getMemberList: '/users',
+  searchMember: '/user/search',
   setUserGroup: '/user/group',
   addMemberCoin: '/user/coin',
   getVideoFormList: '/list',
   addVideoForm: '/list',
+  editVideoForm: '/list/edit',
   addVideoToForm: '/video/list',
   getFormVideoList: '/list/videos',
   deleteFormVideo: '/video/list',
@@ -42,7 +44,12 @@ const api = {
   addUser: '/user/add',
   deleteUser: '/user/delete',
   getRoles: '/user/getroles',
-  editUser: '/user/edituser'
+  editUser: '/user/edituser',
+  getRegisterCount: '/data/users',
+  getActiveCount: '/data/activeUsers',
+  getVipRecharge: '/data/vipRecs',
+  getCoinRecharge: '/data/coinsRecs',
+  getRemainStatistics: '/data/remainStatistics'
 }
 
 export default api
@@ -297,6 +304,15 @@ export function getMemberList (parameter) {
   })
 }
 
+// 通过平台id获取用户信息
+export function searchMember (parameter) {
+  return request({
+    url: api.searchMember,
+    method: 'get',
+    params: parameter
+  })
+}
+
 // 设置用户组
 export function setUserGroup (parameter) {
   return request({
@@ -328,6 +344,15 @@ export function getVideoFormList (parameter) {
 export function addVideoForm (parameter) {
   return request({
     url: api.addVideoForm,
+    method: 'post',
+    data: parameter
+  })
+}
+
+// 编辑视频表单
+export function editVideoForm (parameter) {
+  return request({
+    url: api.editVideoForm,
     method: 'post',
     data: parameter
   })
@@ -429,5 +454,51 @@ export function editUser (parameter) {
     url: api.editUser,
     method: 'post',
     data: parameter
+  })
+}
+
+// 统计
+// 获取注册用户数
+export function getRegisterCount (parameter) {
+  return request({
+    url: api.getRegisterCount,
+    method: 'get',
+    params: parameter
+  })
+}
+
+// 获取活跃用户数
+export function getActiveCount (parameter) {
+  return request({
+    url: api.getActiveCount,
+    method: 'get',
+    params: parameter
+  })
+}
+
+// 会员充值金额
+export function getVipRecharge (parameter) {
+  return request({
+    url: api.getVipRecharge,
+    method: 'get',
+    params: parameter
+  })
+}
+
+// 会员充值金额
+export function getCoinRecharge (parameter) {
+  return request({
+    url: api.getCoinRecharge,
+    method: 'get',
+    params: parameter
+  })
+}
+
+// 获取留存统计
+export function getRemainStatistics (parameter) {
+  return request({
+    url: api.getRemainStatistics,
+    method: 'get',
+    params: parameter
   })
 }

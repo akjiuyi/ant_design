@@ -27,7 +27,7 @@
             <a href="_self">条款</a>
           </div>
           <div class="copyright">
-            Copyright &copy; 2018 互粉蛋糕
+            Copyright &copy; 2022 抖阴
           </div>
         </div>
       </div>

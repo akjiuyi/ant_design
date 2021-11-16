@@ -21,6 +21,15 @@ import './permission' // permission control
 import './utils/filter' // global filter
 import './global.less' // global style
 
+/*
+import VideoPlayer from 'vue-video-player'
+require('video.js/dist/video-js.css')
+require('vue-video-player/src/custom-theme.css')
+const hls = require('videojs-contrib-hls')
+Vue.use(hls)
+Vue.use(VideoPlayer)
+ */
+
 Vue.config.productionTip = false
 
 // mount axios to `Vue.$http` and `this.$http`

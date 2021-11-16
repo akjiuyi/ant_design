@@ -11,7 +11,7 @@
       <a-form :form="form" v-bind="formLayout">
         <!--更改用户组-->
         <a-form-item label="vip">
-          <a-select show-search placeholder="请选择一个用户组" option-filter-prop="children" v-decorator="['vip', {rules: [{required: true, message: '请选择用户组！'}]}]" @blur="getGroup">
+          <a-select show-search placeholder="请选择一个用户组" option-filter-prop="children" v-decorator="['vip', {rules: [{required: true, message: '请选择用户组！'}]}]">
             <a-select-option value="0">
               游客
             </a-select-option>

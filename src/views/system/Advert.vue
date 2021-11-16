@@ -4,7 +4,6 @@
       <div class="table-page-search-wrapper">
         <a-form layout="inline">
           <a-row :gutter="48">
-
             <a-col :md="8" :sm="24">
               <a-form-item label="类型">
                 <a-select v-model="queryParam.status" placeholder="请选择" default-value="0">
@@ -92,7 +91,6 @@
       />
       <step-by-step-modal ref="modal" @ok="handleOk"/>
 
-      // 查看
       <a-modal v-model="detail_visible" ref="detail" title="广告详细" @ok="detail_visible=false">
         <p>Some contents...</p>
         <p>Some contents...</p>
@@ -191,7 +189,8 @@ export default {
           })
       },
       selectedRowKeys: [],
-      selectedRows: []
+      selectedRows: [],
+      currentSelectedIcon: 'pause-circle'
     }
   },
   filters: {
@@ -214,6 +213,9 @@ export default {
     }
   },
   methods: {
+    onEndHandle () {
+      console.log('$$$')
+    },
     handleAdd () {
       this.mdl = null
       this.add_visible = true
@@ -322,6 +324,13 @@ export default {
       this.queryParam = {
         date: moment(new Date())
       }
+    },
+    handleIconChange (icon) {
+      console.log('change Icon', icon)
+      this.$message.info('<span>选中图标 <code>{icon}</code></span>')
+    },
+    changeIcon (type) {
+      this.currentSelectedIcon = type
     }
   }
 }

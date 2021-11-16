@@ -1,6 +1,7 @@
 <template>
   <page-header-wrapper>
     <a-card :bordered="false">
+      <!--
       <div class="table-page-search-wrapper">
         <a-form layout="inline">
           <a-row :gutter="48">
@@ -24,28 +25,29 @@
           </a-row>
         </a-form>
       </div>
+      -->
 
       <div class="table-operator">
         <a-button type="primary"  @click="addCategory">新增</a-button>
         <!--<a-button type="primary"  @click="handleValid">有效</a-button>
-        <a-button type="primary"  @click="handleInvalid">无效</a-button>-->
+        <a-button type="primary"  @click="handleInvalid">无效</a-button>
 
         <a-dropdown v-action:edit >
           <a-menu slot="overlay">
             <a-menu-item key="1"><a-icon type="delete" />删除</a-menu-item>
-            <!-- lock | unlock -->
             <a-menu-item key="2"><a-icon type="lock" />锁定</a-menu-item>
           </a-menu>
           <a-button style="margin-left: 8px">
             批量操作 <a-icon type="down" />
           </a-button>
         </a-dropdown>
+        -->
       </div>
 
       <s-table
         ref="table"
         size="default"
-        rowKey="key"
+        rowKey="_id"
         :columns="columns"
         :data="loadData"
         :alert="true"
@@ -106,23 +108,12 @@
         @ok="addSectionOk"
       />
 
-      <create-form
-        ref="createModal"
-        :visible="visible"
-        :loading="confirmLoading"
-        :model="mdl"
-        @cancel="handleCancel"
-        @ok="handleOk"
-      />
-      <step-by-step-modal ref="modal" @ok="handleOk"/>
-
       <!--查看-->
       <a-modal v-model="section_visible"   ref="detail" title="分区列表" width="60%" @ok="showDiage">
         <s-table
           ref="table1"
           size="default"
-
-          rowKey="key"
+          rowKey="_id"
           :columns="sectionColumns"
           :data="loadZoneData"
           :alert="true"
@@ -155,10 +146,8 @@
 <script>
 import moment from 'moment'
 import { STable, Ellipsis } from '@/components'
-import { getRoleList, getCategoryList, getSectionOfCategory, addCategory, addSection, setCategoryState, setSectionState } from '@/api/manage'
+import { getCategoryList, getSectionOfCategory, addCategory, addSection, setCategoryState, setSectionState } from '@/api/manage'
 
-import StepByStepModal from './modules/StepByStepModal'
-import CreateForm from './modules/CreateForm'
 import AddCategory from './modules/AddCategory'
 import AddSection from './modules/AddSection'
 import EditCategory from './modules/EditCategory'
@@ -241,7 +230,11 @@ const sectionColumns = [
     title: '作者',
     dataIndex: 'author',
     customRender: (text) => {
-      return text.nickname
+      if (text) {
+        return text.nickname
+      } else {
+        return '    '
+      }
     }
   },
   {
@@ -301,9 +294,7 @@ export default {
     AddSection,
     EditCategory,
     STable,
-    Ellipsis,
-    CreateForm,
-    StepByStepModal
+    Ellipsis
   },
   data () {
     this.columns = columns
@@ -377,7 +368,7 @@ export default {
     }
   },
   created () {
-     getRoleList({ t: new Date() })
+     // getRoleList({ t: new Date() })
   },
   computed: {
     rowSelection () {
@@ -394,6 +385,7 @@ export default {
     }
   },
   methods: {
+
     // 查看分区
     sectionList (record) {
       this.category_id = record._id

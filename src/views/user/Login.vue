@@ -125,7 +125,8 @@
 import TwoStepCaptcha from '@/components/tools/TwoStepCaptcha'
 import { mapActions } from 'vuex'
 import { timeFix } from '@/utils/util'
-import { getSmsCaptcha, get2step } from '@/api/login'
+// import { getSmsCaptcha, get2step } from '@/api/login'
+import { getSmsCaptcha } from '@/api/login'
 
 export default {
   components: {
@@ -151,6 +152,7 @@ export default {
     }
   },
   created () {
+    /*
     get2step({ })
       .then(res => {
         this.requiredTwoStepCaptcha = res.result.stepCode
@@ -158,6 +160,7 @@ export default {
       .catch(() => {
         this.requiredTwoStepCaptcha = false
       })
+      */
     // this.requiredTwoStepCaptcha = true
   },
   methods: {
@@ -266,7 +269,7 @@ export default {
         })
       })
       */
-      this.$router.push({ path: '/system/advert' })
+      this.$router.push({ path: '/category/home-clist' })
       // 延迟 1 秒显示欢迎信息
       setTimeout(() => {
         this.$notification.success({

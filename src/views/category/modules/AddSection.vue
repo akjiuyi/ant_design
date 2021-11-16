@@ -40,8 +40,13 @@
         </a-form-item>
 
         <!--作者-->
-        <a-form-item v-if="v" label="作者id">
+        <a-form-item v-if="author_v" label="作者id">
           <a-input placeholder="请输入作者id" v-decorator="['author', {rules: [{required: true, message: '作者id不能为空！'}]}]" />
+        </a-form-item>
+
+        <!--表单id-->
+        <a-form-item v-if="list_v" label="表单id">
+          <a-input placeholder="请输入表单id" v-decorator="['list', {rules: [{required: true, message: '表单id不能为空！'}]}]" />
         </a-form-item>
       </a-form>
     </a-spin>
@@ -52,7 +57,7 @@
 import pick from 'lodash.pick'
 
 // 表单字段
-const fields = ['title', 'author', 'type']
+const fields = ['title', 'author', 'list', 'type']
 
 export default {
   props: {
@@ -82,7 +87,8 @@ export default {
     }
     return {
       form: this.$form.createForm(this),
-      v: false
+      author_v: false,
+      list_v: false
     }
   },
 
@@ -102,9 +108,11 @@ export default {
     getType () {
         this.type = this.form.getFieldValue('type')
         if (this.type === '0' || this.type === '1' || this.type === '2' || this.type === '3') {
-           this.v = true
-        } else {
-           this.v = false
+           this.author_v = true
+           this.list_v = false
+        } else if (this.type === '4' || this.type === '5' || this.type === '6' || this.type === '7') {
+          this.list_v = true
+          this.author_v = false
         }
     }
   }

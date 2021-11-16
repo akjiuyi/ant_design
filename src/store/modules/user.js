@@ -1,5 +1,6 @@
 import storage from 'store'
-import { login, getInfo, logout } from '@/api/login'
+// import { login, getInfo, logout } from '@/api/login'
+import { login, getInfo } from '@/api/login'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { welcome } from '@/utils/util'
 
@@ -36,7 +37,6 @@ const user = {
     // 登录
     Login ({ commit }, userInfo) {
       return new Promise((resolve, reject) => {
-        console.log(resolve)
         login(userInfo).then(response => {
           if (response.code === 0) {
             const result = response.data
@@ -57,10 +57,10 @@ const user = {
     GetInfo ({ commit }) {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
-           const result = response.result
+          // const result = response.result
 
           // 打包适配代码
-          // const result = response.data
+          const result = response.data
           //
 
           if (result.role && result.role.permissions.length > 0) {
@@ -92,16 +92,19 @@ const user = {
     // 登出
     Logout ({ commit, state }) {
       return new Promise((resolve) => {
-        logout(state.token).then(() => {
+        // 后台退出关闭退出api
+        // logout(state.token).then(res => {
+
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
           storage.remove(ACCESS_TOKEN)
           resolve()
-        }).catch((err) => {
-          console.log('logout fail:', err)
+
+        // }).catch((err) => {
+        //  console.log('logout fail:', err)
           // resolve()
-        }).finally(() => {
-        })
+        // }).finally(() => {
+        // })
       })
     }
 

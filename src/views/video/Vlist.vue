@@ -1,6 +1,7 @@
 <template>
   <page-header-wrapper>
     <a-card :bordered="false">
+      <!--
       <div class="table-page-search-wrapper">
         <a-form layout="inline">
           <a-row :gutter="48">
@@ -61,28 +62,29 @@
           </a-row>
         </a-form>
       </div>
+      -->
 
       <div class="table-operator">
         <!--<a-button type="primary"  @click="addCategory">新增</a-button>
         <a-button type="primary"  @click="handleValid">有效</a-button>
-        <a-button type="primary"  @click="handleInvalid">无效</a-button>-->
+        <a-button type="primary"  @click="handleInvalid">无效</a-button>
 
         <a-dropdown v-action:edit >
           <a-menu slot="overlay">
             <a-menu-item key="1"><a-icon type="delete" />删除</a-menu-item>
-            <!-- lock | unlock -->
             <a-menu-item key="2"><a-icon type="lock" />锁定</a-menu-item>
           </a-menu>
           <a-button style="margin-left: 8px">
             批量操作 <a-icon type="down" />
           </a-button>
         </a-dropdown>
+        -->
       </div>
 
       <s-table
         ref="table"
         size="default"
-        rowKey="key"
+        rowKey="_id"
         :columns="columns"
         :data="loadData"
         :alert="true"
@@ -96,7 +98,7 @@
           <a-badge :status="text | statusTypeFilter" :text="text | statusFilter" />
         </span>
         <span slot="description" slot-scope="text">
-          <ellipsis :length="12" tooltip>{{ text.join(';') }}</ellipsis>
+          <ellipsis :length="12" tooltip>{{ text }}</ellipsis>
         </span>
 
         <span slot="join" slot-scope="text">
@@ -105,15 +107,15 @@
 
         <span slot="action" slot-scope="text, record">
           <template>
-            <a @click="bindToSection(record)">添加到分区</a>
-            <a-divider type="vertical" />
+            <!--<a @click="bindToSection(record)">添加到分区</a>
+            <a-divider type="vertical" />-->
             <a @click="editVideo(record)">编辑</a>
             <a-divider type="vertical" />
             <a @click="setPayType(record)">更改付费类型</a>
             <a-divider type="vertical" />
             <a @click="bindAuthor(record)">绑定作者</a>
-            <!--<a-divider type="vertical" />
-            <a @click="bindModels(record)">绑定演员</a>-->
+            <a-divider type="vertical" />
+            <a @click="previewVideo(record)">视频预览</a>
             <a-divider type="vertical" />
             <a @click="AddToForm(record)">添加到表单</a>
             <a-divider type="vertical" />
@@ -165,14 +167,14 @@
         @ok="BindAuthorOk"
       />
 
-      <!--绑定演员-->
-      <bind-models
-        ref="BindModels"
-        :visible="bind_models_visible"
+      <!--视频预览-->
+      <preview-video
+        ref="PreviewVideo"
+        :visible="preview_video_visible"
         :loading="confirmLoading"
-        :model="bind_models_mdl"
-        @cancel="BindModelsCancel"
-        @ok="BindModelsOk"
+        :model="preview_video_mdl"
+        @cancel="PreviewVideoCancel"
+        @ok="PreviewVideoOk"
       />
 
       <!--添加视频到表单-->
@@ -192,11 +194,11 @@
 <script>
 import moment from 'moment'
 import { STable, Ellipsis } from '@/components'
-import { getRoleList, getVideoList, setVideoState, setCategoryState, BindVideoToSection, setPayType, bindVideoAuthor, bindVideoModels, getVideoInfo, editVideo, addVideoToForm } from '@/api/manage'
+import { getVideoList, setVideoState, setCategoryState, BindVideoToSection, setPayType, bindVideoAuthor, bindVideoModels, getVideoInfo, editVideo, addVideoToForm } from '@/api/manage'
 
 import BindVideo from './modules/BindVideo'
 import BindAuthor from './modules/BindAuthor'
-import BindModels from './modules/BindModels'
+import PreviewVideo from './modules/PreviewVideo'
 import SetPayType from './modules/SetPayType'
 import EditVideo from './modules/EditVideo'
 import AddToForm from './modules/AddToForm'
@@ -211,8 +213,9 @@ const columns = [
 
   {
     title: '标题',
-    dataIndex: 'title'
+    dataIndex: 'title',
     // scopedSlots: { customRender: 'link_type' }
+    scopedSlots: { customRender: 'description' }
   },
   {
     title: '类型',
@@ -235,7 +238,7 @@ const columns = [
   {
     title: '分区',
     dataIndex: 'section',
-    scopedSlots: { customRender: 'description' }
+    scopedSlots: { customRender: 'join' }
   },
   {
     title: '标签',
@@ -379,7 +382,7 @@ export default {
   components: {
     BindVideo,
     BindAuthor,
-    BindModels,
+    PreviewVideo,
     SetPayType,
     EditVideo,
     AddToForm,
@@ -400,14 +403,14 @@ export default {
       edit_video_visible: false,
       set_pay_type_visible: false,
       bind_author_visible: false,
-      bind_models_visible: false,
+      preview_video_visible: false,
       add_to_form_visible: false,
       confirmLoading: false,
       mdl: null,
       bind_video_mdl: null,
       set_pay_type_mdl: null,
       bind_author_mdl: null,
-      bind_models_mdl: null,
+      preview_video_mdl: null,
       edit_video_mdl: null,
       add_to_form_mdl: null,
       // 高级搜索 展开/关闭
@@ -453,7 +456,7 @@ export default {
     }
   },
   created () {
-    getRoleList({ t: new Date() })
+    // getRoleList({ t: new Date() })
   },
   computed: {
     rowSelection () {
@@ -495,10 +498,11 @@ export default {
       this.bind_author_mdl = { ...record }
       this.bind_author_visible = true
     },
-    bindModels (record) {
+    previewVideo (record) {
       this.video_id = record._id
-      this.bind_models_mdl = { ...record }
-      this.bind_models_visible = true
+      // record.video = 'http://192.168.2.8:3302/6169b8ba01599a47c59e5faf/m3u8/index.m3u8'
+      this.preview_video_mdl = { ...record }
+      this.preview_video_visible = true
     },
     AddToForm (record) {
       this.video_id = record._id
@@ -632,6 +636,10 @@ export default {
       })
       // this.add_category_visible = false
     },
+    PreviewVideoOk () {
+        this.confirmLoading = false
+        this.preview_video_visible = false
+    },
     BindAuthorOk () {
       const form = this.$refs.BindAuthor.form
       this.confirmLoading = true
@@ -722,9 +730,9 @@ export default {
       this.confirmLoading = false
       this.bind_author_visible = false
     },
-    BindModelsCancel () {
+    PreviewVideoCancel () {
       this.confirmLoading = false
-      this.bind_models_visible = false
+      this.preview_video_visible = false
     },
     AddToFormCancel () {
       this.confirmLoading = false

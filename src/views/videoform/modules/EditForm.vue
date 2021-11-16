@@ -19,30 +19,7 @@
           <a-input placeholder="请输入描述" v-decorator="['des', {rules: [{required: true, message: '请输入描述！'}]}]" />
         </a-form-item>
 
-        <!--图片上传-->
-        <a-form-item label="图片上传">
-          <a-upload
-            name="pic"
-            :data="upload_data"
-            :headers="upload_header"
-            method="PATCH"
-            list-type="picture-card"
-            class="avatar-uploader"
-            :show-upload-list="false"
-            :action="upload_url"
-            :before-upload="beforeUpload"
-            @change="handleChange"
-          >
-            <a-input type="hidden" v-decorator="['pic', {rules: [{required: true,  message: '请上传视频'}]}]"/>
-            <img v-if="imageUrl" :src="imageUrl"  alt="pic" style="width: 6rem;"/>
-            <div v-else>
-              <a-icon :type="uploading ? 'loading' : 'plus'" />
-              <div class="ant-upload-text">
-                Upload
-              </div>
-            </div>
-          </a-upload>
-        </a-form-item>
+        <a-input type="hidden" placeholder="请输入描述" v-decorator="['_id', {rules: [{required: true, message: '请输入_id'}]}]" />
       </a-form>
     </a-spin>
   </a-modal>
@@ -52,7 +29,7 @@
 import pick from 'lodash.pick'
 
 // 表单字段
-const fields = ['group']
+const fields = ['title', 'des', '_id']
 
 export default {
   props: {
@@ -93,8 +70,7 @@ export default {
     // 当 model 发生改变时，为表单设置值
     this.$watch('model', () => {
       const obj = pick(this.model, fields)
-      obj.group = obj.group.toString()
-      this.model && this.form.setFieldsValue(obj)
+      this.form.setFieldsValue(obj)
     })
   }
 }

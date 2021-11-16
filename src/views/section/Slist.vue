@@ -1,6 +1,7 @@
 <template>
   <page-header-wrapper>
     <a-card :bordered="false">
+      <!--
       <div class="table-page-search-wrapper">
         <a-form layout="inline">
           <a-row :gutter="48">
@@ -24,28 +25,29 @@
           </a-row>
         </a-form>
       </div>
+      -->
 
       <div class="table-operator">
         <!--<a-button type="primary"  @click="addCategory">新增</a-button>
         <a-button type="primary"  @click="handleValid">有效</a-button>
-        <a-button type="primary"  @click="handleInvalid">无效</a-button>-->
+        <a-button type="primary"  @click="handleInvalid">无效</a-button>
 
         <a-dropdown v-action:edit >
           <a-menu slot="overlay">
             <a-menu-item key="1"><a-icon type="delete" />删除</a-menu-item>
-            <!-- lock | unlock -->
             <a-menu-item key="2"><a-icon type="lock" />锁定</a-menu-item>
           </a-menu>
           <a-button style="margin-left: 8px">
             批量操作 <a-icon type="down" />
           </a-button>
         </a-dropdown>
+        -->
       </div>
 
       <s-table
         ref="table"
         size="default"
-        rowKey="key"
+        rowKey="_id"
         :columns="columns"
         :data="loadData"
         :alert="true"
@@ -106,48 +108,6 @@
         @ok="addSectionOk"
       />
 
-      <create-form
-        ref="createModal"
-        :visible="visible"
-        :loading="confirmLoading"
-        :model="mdl"
-        @cancel="handleCancel"
-        @ok="handleOk"
-      />
-      <step-by-step-modal ref="modal" @ok="handleOk"/>
-
-      <!--查看-->
-      <a-modal v-model="video_visible"   ref="detail" title="分区列表" width="60%" @ok="showDiage">
-        <s-table
-          ref="table1"
-          size="default"
-
-          rowKey="key"
-          :columns="sectionColumns"
-          :data="loadZoneData"
-          :alert="true"
-          :rowSelection="sectionRowSelection"
-          showPagination="auto"
-        >
-        <span slot="serial" slot-scope="text">
-          {{ text._id }}
-        </span>
-          <span slot="status" slot-scope="text">
-          <a-badge :status="text | statusTypeFilter" :text="text | statusFilter" />
-        </span>
-          <span slot="description" slot-scope="text">
-          <ellipsis :length="4" tooltip>{{ text }}</ellipsis>
-        </span>
-
-          <span slot="action" slot-scope="text, record">
-            <template>
-              <a  v-if="record.status" @click="setSectionState(record._id,0)">下架</a>
-              <a  v-else @click="setSectionState(record._id,1)">上架</a>
-            </template>
-          </span>
-        </s-table>
-      </a-modal>
-
     </a-card>
   </page-header-wrapper>
 </template>
@@ -155,10 +115,8 @@
 <script>
 import moment from 'moment'
 import { STable, Ellipsis } from '@/components'
-import { getRoleList, getSectionList, getVideoOfSection, addCategory, addSection, setCategoryState, setSectionState } from '@/api/manage'
+import { getSectionList, addCategory, addSection, setCategoryState, setSectionState } from '@/api/manage'
 
-import StepByStepModal from './modules/StepByStepModal'
-import CreateForm from './modules/CreateForm'
 import AddCategory from './modules/AddCategory'
 import AddSection from './modules/AddSection'
 import EditCategory from './modules/EditCategory'
@@ -212,64 +170,12 @@ const columns = [
     title: '分类',
     dataIndex: '_category',
     customRender: (text) => {
-      return text.title
-    }
-  },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    customRender: (text) => {
-      let str = ''
-      if (text === 0) {
-        str = '下架'
-      } else if (text === 1) {
-        str = '上架'
+      if (text) {
+        return text.title
+      } else {
+        return '   '
       }
-      return str
     }
-  },
-  {
-    title: '添加时间',
-    dataIndex: 'create_time',
-    customRender: (text) => text
-  },
-  {
-    title: '操作',
-    dataIndex: 'action',
-    width: '150px',
-    scopedSlots: { customRender: 'action' }
-  }
-]
-
-// 分区列
-const sectionColumns = [
-  /*
-  {
-    title: 'id',
-    scopedSlots: { customRender: 'serial' }
-  },
-   */
-  {
-    title: '名称',
-    dataIndex: 'title'
-    // scopedSlots: { customRender: 'link_type' }
-  },
-  {
-    title: '类型',
-    dataIndex: 'type',
-    customRender: (text) => text
-  },
-  {
-    title: '作者',
-    dataIndex: 'author',
-    customRender: (text) => {
-      return text.nickname
-    }
-  },
-  {
-    title: '所属分类',
-    dataIndex: '_category',
-    customRender: (text) => text
   },
   {
     title: '状态',
@@ -323,13 +229,11 @@ export default {
     AddSection,
     EditCategory,
     STable,
-    Ellipsis,
-    CreateForm,
-    StepByStepModal
+    Ellipsis
   },
   data () {
     this.columns = columns
-    this.sectionColumns = sectionColumns
+
     return {
       // create model
       section_id: '',
@@ -363,30 +267,8 @@ export default {
           }).finally(() => {
           })
       },
-      // 加载数据方法 必须为 Promise 对象
-      loadVideoData: parameter => {
-        const requestParameters = Object.assign({}, { 'section_id': this.section_id }, parameter)
-        console.log('loadData request parameters:', requestParameters)
-        return getVideoOfSection(requestParameters)
-          .then(res => {
-            if (res.code === 0) {
-              res.data.forEach(element => {
-                element._category = this.category_title
-              })
-
-              return res
-            }
-          }).catch((err) => {
-            console.log('logout fail:', err)
-            // resolve()
-          }).finally(() => {
-          })
-      },
       selectedRowKeys: [],
-      selectedRows: [],
-
-      selectedSectionRowKeys: [],
-      selectedSectionRows: []
+      selectedRows: []
     }
   },
   filters: {
@@ -398,19 +280,13 @@ export default {
     }
   },
   created () {
-    getRoleList({ t: new Date() })
+    // getRoleList({ t: new Date() })
   },
   computed: {
     rowSelection () {
       return {
         selectedRowKeys: this.selectedRowKeys,
         onChange: this.onSelectChange
-      }
-    },
-    sectionRowSelection () {
-      return {
-        selectedSectionRowKeys: this.selectedSectionRowKeys,
-        onChange: this.onSectionSelectChange
       }
     }
   },
@@ -678,10 +554,6 @@ export default {
     onSelectChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
       this.selectedRows = selectedRows
-    },
-    onSectionSelectChange (selectedRowKeys, selectedRows) {
-      this.selectedSectionRowKeys = selectedRowKeys
-      this.selectedSectionRows = selectedRows
     },
     toggleAdvanced () {
       this.advanced = !this.advanced

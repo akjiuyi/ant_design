@@ -1,3 +1,4 @@
+/*
 import Mock from 'mockjs2'
 import { builder } from '../util'
 
@@ -20,6 +21,7 @@ const info = options => {
     roleId: 'admin',
     role: {}
   }
+ */
   // role
   /*
   const roleObj = {
@@ -462,6 +464,8 @@ const info = options => {
     dataAccess: null
   })
    */
+
+/*
   const roleObj = {
     id: 'admin',
     name: '管理员',
@@ -479,7 +483,9 @@ const info = options => {
   userInfo.role = roleObj
   return builder(userInfo)
 }
+ */
 
+/*
 const userNav = options => {
   const nav = [
     // 系统
@@ -561,7 +567,6 @@ const userNav = options => {
       component: 'AboutUs',
       path: '/system/about-us'
     },
-    /*
     {
       name: 'role',
       parentId: 1,
@@ -584,7 +589,6 @@ const userNav = options => {
       component: 'User',
       path: '/system/user/:pageNo([1-9]\\d*)?'
     },
-     */
     // 分类管理
     {
       name: 'category',
@@ -716,7 +720,13 @@ const userNav = options => {
       path: '/videoform/flist',
       component: 'Flist'
     }
-  /*
+  ]
+  const json = builder(nav)
+  console.log('json', json)
+  return json
+}
+*/
+/*
     // form
     {
       name: 'form',
@@ -1049,11 +1059,5 @@ const userNav = options => {
     }
    */
 
-  ]
-  const json = builder(nav)
-  console.log('json', json)
-  return json
-}
-
-Mock.mock(/\/api\/user\/info/, 'get', info)
-Mock.mock(/\/api\/user\/nav/, 'get', userNav)
+// Mock.mock(/\/api\/user\/info/, 'get', info)
+// Mock.mock(/\/api\/user\/nav/, 'get', userNav)
